@@ -54,6 +54,16 @@ app.put('/api/genres/:id', (req, res) => {
     res.status(200).send(movie)
 });
 
+app.delete('/api/genres/:id', (req, res) => {
+    const movie = movies.find(m => m.id === parseInt(req.params.id));
+    if (!movie) return res.status(404).send('Movie NOT FOUND');
+
+    const index = movies.indexOf(movie);
+    movies.splice(index, 1);
+
+    res.send(movies)
+});
+
 function validateMovie(movie) {
     const schema = Joi.object({
         movie: Joi.string().min(2).required(),
